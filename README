@@ -1,0 +1,15 @@
+** NOTE: The 1.0 release version of Partuza is intended to be used with the
+   1.0 release version of php-shindig (which supports OpenSocial upto revision
+   0.8.1). If you want to use the trunk / 0.9 OpenSocial supporting version, 
+   please also use the trunk version of Partuza!
+
+See http://code.google.com/p/partuza/
+and http://code.google.com/p/partuza/w/list
+
+There are also instalation guides available on:
+http://www.chabotc.com/
+
+and a live version lives at:
+http://www.partuza.nl
+
+Enjoy!
