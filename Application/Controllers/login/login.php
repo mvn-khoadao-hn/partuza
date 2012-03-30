@@ -21,6 +21,11 @@
 class loginController extends baseController {
 
   private function redirect() {
+    if(isset($_SESSION['appUrl'])) {
+	header('Location: /profile/getapp?appUrl=' . $_SESSION['appUrl']);
+	unset($_SESSION['appUrl']);
+	die();	
+    }
     $location = isset($_GET['redirect']) ? $_GET['redirect'] : '/';
     header('Location: ' . $location);
     die();

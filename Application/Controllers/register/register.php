@@ -51,6 +51,11 @@ class registerController extends baseController {
           // registration went ok, set up the session (and cookie)
           $this->authenticate($_POST['register_email'], $_POST['register_password']);
           
+	  if(isset($_SESSION['appUrl'])) {
+	     header('Location: /profile/getapp?appUrl=' . $_SESSION['appUrl']);
+	     unset($_SESSION['appUrl']);
+	     die();	
+	  }
           // and finally, redirect the user to his profile edit page
           header("Location: /profile/edit");
           

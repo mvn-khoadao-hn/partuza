@@ -255,6 +255,37 @@ class applicationsModel extends Model {
     return array('app_id' => $app_id, 'mod_id' => $mod_id, 'error' => $app['error']);
   }
 
+  public function add_application_not_check_url($person_id, $app_url) {
+    global $db;
+    $mod_id = false;
+    $url = $db->addslashes($app_url);
+    $res = $db->query("select * from applications where url = '$url'");
+    if (! $db->num_rows($res)) {
+        $error = "Could not store application in registry";
+    } else {
+	while ($row = $db->fetch_array($res, MYSQLI_ASSOC)) {
+	   $app_id = isset($row['id']) ? $row['id'] : false;	
+        }
+    }
+    if ($app_id && ! $error) {
+       $person_id = $db->addslashes($person_id);
+       $app_id = $db->addslashes($app_id);
+       $res = $db->query("select * from person_applications where person_id = '$person_id' and application_id = $app_id");
+       if (! $db->num_rows($res)) {
+	  $db->query("insert into person_applications (id, person_id, application_id) values (0, $person_id, $app_id)");
+	  $mod_id = $db->insert_id();
+          $this->invalidate_dependency('person_applications', $person_id);
+	  $this->invalidate_dependency('person_application_prefs', $person_id);
+       }
+       else {
+	while ($row = $db->fetch_array($res, MYSQLI_ASSOC)) {
+	  $mod_id = $row['id'];
+        }
+       }
+    }
+    return array('app_id' => $app_id, 'mod_id' => $mod_id, 'error' => $error);
+  }
+
   public function remove_application($person_id, $app_id, $mod_id) {
     global $db;
     $person_id = $db->addslashes($person_id);

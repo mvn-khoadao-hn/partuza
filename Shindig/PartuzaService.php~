@@ -680,6 +680,7 @@ class PartuzaService implements ActivityService, PersonService, AppDataService, 
     }
 
     $this->checkPartuzaConfig();
+
     if(!PartuzaDbFetcher::get()->updateCoin($user_id, $app_id, $coin)) {
 	$result = array();
     	$payment = array();

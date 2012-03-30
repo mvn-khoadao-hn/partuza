@@ -687,7 +687,6 @@ class PartuzaService implements ActivityService, PersonService, AppDataService, 
 	$payment['paymentId'] = 0;
 	$payment['status'] = '0';
 	$payment['transactionUrl'] =  $this->partuzaConfig['partuza_url'] . "/api/coin/" . $user_id;
-	//$payment['transactionUrl'] = "http://192.168.1.144/api/coin/" . $user_id;
     	$payment['orderedTime'] = $now;
     	array_push($result, $payment);
     	return $result;
@@ -701,7 +700,6 @@ class PartuzaService implements ActivityService, PersonService, AppDataService, 
     $payment['paymentId'] = $res;
     $payment['status'] = '1';
     $payment['transactionUrl'] = $this->partuzaConfig['partuza_url'] . "/api/payment/" . $res . "/0/" . $user_id;
-    //$payment['transactionUrl'] = "http://192.168.1.144/api/payment/" . $res . "/0/" . $user_id;
     $payment['orderedTime'] = $now;
     array_push($result, $payment);
     return $result;

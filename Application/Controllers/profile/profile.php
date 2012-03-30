@@ -292,6 +292,25 @@ class profileController extends baseController {
     $this->template('applications/applications_gallery.php', array('person' => $person, 'is_owner' => true, 'applications' => $applications, 'app_gallery' => $app_gallery));
   }
 
+  public function getapp($params) {
+    if (! isset($_SESSION['id']) || ! isset($_GET['appUrl'])) {
+      header("Location: /");
+    }
+    $url = trim(urldecode($_GET['appUrl']));
+    $apps = $this->model('applications');
+    $ret = $apps->add_application_not_check_url($_SESSION['id'], $url);
+    if ($ret['app_id'] && $ret['mod_id'] && ! $ret['error']) {
+      // App added ok, goto app settings
+      header("Location: " . PartuzaConfig::get("web_prefix") . "/profile/application/{$_SESSION['id']}/{$ret['app_id']}/{$ret['mod_id']}");
+    } else {
+      // Using the home controller to display the error on the person's home page
+      include_once PartuzaConfig::get('controllers_root') . "/home/home.php";
+      $homeController = new homeController();
+      $message = "Could not add application: {$ret['error']}";
+      $homeController->index($params, $message);
+    }
+  }
+
   public function addapp($params) {
     if (! isset($_SESSION['id']) || ! isset($_GET['appUrl'])) {
       header("Location: /");
@@ -299,7 +318,6 @@ class profileController extends baseController {
     $url = trim(urldecode($_GET['appUrl']));
     $apps = $this->model('applications');
     $ret = $apps->add_application($_SESSION['id'], $url);
-//var_dump($ret);
     if ($ret['app_id'] && $ret['mod_id'] && ! $ret['error']) {
       // App added ok, goto app settings
       header("Location: " . PartuzaConfig::get("web_prefix") . "/profile/application/{$_SESSION['id']}/{$ret['app_id']}/{$ret['mod_id']}");
