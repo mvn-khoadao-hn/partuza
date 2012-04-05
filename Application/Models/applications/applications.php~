@@ -113,6 +113,7 @@ class applicationsModel extends Model {
     curl_setopt($ch, CURLOPT_TIMEOUT, 20);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, 'request=' . urlencode($request));
+    curl_setopt($ch, CURLOPT_HTTPAUTH, 'OAuth oauth_consumer_key="Consumer%20Key", oauth_nonce="nx5RtCTTOPwnaL0fxthwcdASlF6DcV10mfpciVGGAE", oauth_signature="5fLJTMz5URyhFGJKlpU1UAHlofo%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1333427086", oauth_version="1.0", xoauth_requestor_id="1"'); 
     $content = @curl_exec($ch);
     return json_decode($content);
   }
@@ -270,7 +271,7 @@ class applicationsModel extends Model {
     if ($app_id && ! $error) {
        $person_id = $db->addslashes($person_id);
        $app_id = $db->addslashes($app_id);
-       $res = $db->query("select * from person_applications where person_id = '$person_id' and application_id > $app_id");
+       $res = $db->query("select * from person_applications where person_id = '$person_id' and application_id = $app_id");
        if (! $db->num_rows($res)) {
 	  $db->query("insert into person_applications (id, person_id, application_id) values (0, $person_id, $app_id)");
 	  $mod_id = $db->insert_id();
