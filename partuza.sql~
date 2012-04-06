@@ -641,6 +641,18 @@ CREATE TABLE `person_coins` (
 SET character_set_client = @saved_cs_client;
 
 
+DROP TABLE IF EXISTS `ignorelists`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ignorelists` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `person_id` int(11) NOT NULL,
+  `target_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM;
+SET character_set_client = @saved_cs_client;
+
+
 DROP TABLE IF EXISTS `payments`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;

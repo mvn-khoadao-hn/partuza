@@ -7,12 +7,14 @@ class apiController extends baseController {
     $payment_id = $params[3];
     $app_id = $params[4];
     $user_id = $params[5];
+    $coin = $params[6];
 
-    $url = "http://shindig.local/social/rest/payment/@self/@self/@app/" . $app_id;
+    $url = PartuzaConfig::get('gadget_server') . "/social/rest/payment/@self/@self/@app/" . $app_id;
 
     $this->template('api/payment.php', array('payment_id'=>$payment_id
 			, 'user_id'=>$user_id
 			//, 'app_id'=>$app_id
+			, 'coin'=>$coin
 			, 'url'=>$url
 			, 'error' => $error));
   }

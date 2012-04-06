@@ -662,6 +662,7 @@ CREATE TABLE `payments` (
   `finishPageUrl` char(128) DEFAULT NULL,
   `message` char(128) DEFAULT NULL,
   `items` text DEFAULT NULL,
+  `coin` int(11) DEFAULT NULL,
   `ordered_date` datetime DEFAULT NULL,
   `executed_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)

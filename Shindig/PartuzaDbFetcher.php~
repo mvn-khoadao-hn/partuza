@@ -1685,7 +1685,27 @@ class PartuzaDbFetcher {
     return $ret;
   }
 
- public function updateCoin($userId, $appId, $coin) {
+  public function checkCoin($userId, $appId, $coin) {
+    $this->checkDb();
+    $query = "select * from person_coins where person_id = '$userId' and app_id = '$appId'";
+    $res = mysqli_query($this->db, $query);
+    if ($res && (@mysqli_num_rows($res) > 0)) {
+	while ($row = @mysqli_fetch_array($res, MYSQLI_ASSOC)) {
+          $current_coin = $row['coin'];        
+	}
+	$coin = $current_coin - $coin;
+	if($coin < 0) {
+	  //throw new Exception("Coin of people not enough (can't below 0)!");
+	  return false;
+ 	}		
+    }
+    else {
+        return false;
+    }
+    return true;
+  }
+  
+  public function updateCoin($userId, $appId, $coin) {
     $this->checkDb();
     $query = "select * from person_coins where person_id = '$userId' and app_id = '$appId'";
     $res = mysqli_query($this->db, $query);
@@ -1707,7 +1727,7 @@ class PartuzaDbFetcher {
     }
     else {
 	if($coin < 0) {
-	    //throw new Exception("Coin of people not enough (can't below 0)!");
+	    //throw new Exception("Coin of people can't below 0!");
             return false;
  	}		
 	$query = "insert into person_coins (person_id, app_id, coin)" . " values ('$userId', '$appId', '$coin')";
@@ -1717,9 +1737,9 @@ class PartuzaDbFetcher {
     return true;
  }
 
- function insertPayment($user_id, $callbackUrl, $finishPageUrl, $message, $paymentItems,$now){
+ function insertPayment($user_id, $callbackUrl, $finishPageUrl, $message, $paymentItems, $now, $coin){
     $this->checkDb();
-    $query = "insert into payments (callbackUrl, finishPageUrl, message, items, ordered_date)" . " values ('$callbackUrl', '$finishPageUrl', '$message', '$paymentItems','$now')";
+    $query = "insert into payments (callbackUrl, finishPageUrl, message, items, ordered_date, coin)" . " values ('$callbackUrl', '$finishPageUrl', '$message', '$paymentItems','$now',$coin)";
     mysqli_query($this->db, $query);
     $id = mysqli_insert_id($this->db);
     if (!$id) {
@@ -1730,7 +1750,6 @@ class PartuzaDbFetcher {
  }
  
  function insertPersonPayment($payment_id, $app_id, $platform_user_id){
-$app_id = 0;
     $this->checkDb();
     $query = "select * from person_payments where payment_id = $payment_id and person_id = $platform_user_id";
     $res = mysqli_query($this->db, $query);
@@ -1744,6 +1763,10 @@ $app_id = 0;
 	while ($row = @mysqli_fetch_array($res, MYSQLI_ASSOC)) {
  	   $callbackURL = $row['callbackUrl'];
  	   $ordered_date = $row['ordered_date'];
+ 	   $coin = $row['coin'];
+	   if(!$this->updateCoin($platform_user_id, $app_id, $coin)) {
+              throw new SocialSpiException("Coin not enough. ", ResponseError::$INTERNAL_ERROR);
+           }
 	}	
 	$now = date('Y-m-d H:i:s');
 	$diff = (strtotime($now) - strtotime($ordered_date))/ 60;
@@ -1752,6 +1775,7 @@ $app_id = 0;
 	}
 	else {
 	   $status = 2;
+throw new SocialSpiException("Insert person payments failed." . $platform_user_id . $payment_id . $app_id, ResponseError::$INTERNAL_ERROR);
 	   $query = "insert into person_payments (person_id, payment_id, app_id)" . " values ($platform_user_id, $payment_id, $app_id)";
 	   mysqli_query($this->db, $query);
 	   mysqli_insert_id($this->db);
