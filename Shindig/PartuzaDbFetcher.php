@@ -1765,7 +1765,8 @@ class PartuzaDbFetcher {
  	   $ordered_date = $row['ordered_date'];
  	   $coin = $row['coin'];
 	   if(!$this->updateCoin($platform_user_id, $app_id, $coin)) {
-              throw new SocialSpiException("Coin not enough. ", ResponseError::$INTERNAL_ERROR);
+              //throw new SocialSpiException("Coin not enough. ", ResponseError::$INTERNAL_ERROR);
+	      return false;
            }
 	}	
 	$now = date('Y-m-d H:i:s');

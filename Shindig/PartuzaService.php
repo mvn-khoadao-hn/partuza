@@ -681,27 +681,28 @@ class PartuzaService implements ActivityService, PersonService, AppDataService, 
 
     $this->checkPartuzaConfig();
 
+    $paymentItems = json_encode($paymentItems);
+    $res = PartuzaDbFetcher::get()->insertPayment($user_id, $callbackUrl, $finishPageUrl, $message, $paymentItems, $now, $coin);
+
+    if(!isset($app_id)) { 
+	$app_id = 0;
+    }
+
     if(!PartuzaDbFetcher::get()->checkCoin($user_id, $app_id, $coin)) {
 	$result = array();
     	$payment = array();
 	$payment['paymentId'] = 0;
 	$payment['status'] = '0';
-	$payment['transactionUrl'] =  $this->partuzaConfig['partuza_url'] . "/api/coin/" . $user_id;
+	$payment['transactionUrl'] =  $this->partuzaConfig['partuza_url'] . "/api/coin/" . $res . "/" . $app_id . "/" . $user_id;
     	$payment['orderedTime'] = $now;
     	array_push($result, $payment);
     	return $result;
     }
 
-    $paymentItems = json_encode($paymentItems);
-    $res = PartuzaDbFetcher::get()->insertPayment($user_id, $callbackUrl, $finishPageUrl, $message, $paymentItems, $now, $coin);
-
     $result = array();
     $payment = array();
     $payment['paymentId'] = $res;
     $payment['status'] = '1';
-    if(!isset($app_id)) { 
-	$app_id = 0;
-    }
 
     $payment['transactionUrl'] = $this->partuzaConfig['partuza_url'] . "/api/payment/" . $res . "/" . $app_id . "/" . $user_id;
     $payment['orderedTime'] = $now;
@@ -711,7 +712,15 @@ class PartuzaService implements ActivityService, PersonService, AppDataService, 
 
   function insertPersonPayment($payment_id, $app_id, $platform_user_id){    
     $result = PartuzaDbFetcher::get()->insertPersonPayment($payment_id, $app_id, $platform_user_id);
-    return $result;
+    if(!$result) {
+        $this->checkPartuzaConfig();
+	$url = $this->partuzaConfig['partuza_url'] . "/api/coin/" . $payment_id . "/" . $app_id . "/" . $platform_user_id;
+	header("Location: " . $url);
+	die();
+    }
+    else {
+	return $result;
+    }
   }
 
   function getPayment($userId, $groupId, $appId, $paymentId, SecurityToken $token){
