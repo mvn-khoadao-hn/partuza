@@ -49,6 +49,6 @@ class loginController extends baseController {
       }
     }
     //$this->template('login/login.php', array('error' => $error));
-    $this->template('login/login_iphone.php', array('error' => $error));
+    $this->template('login/login.php', array('error' => $error));
   }
 }

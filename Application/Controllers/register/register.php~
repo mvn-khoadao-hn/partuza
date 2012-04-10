@@ -67,6 +67,6 @@ class registerController extends baseController {
         }
       }
     }
-    $this->template('register/register_iphone.php', array('error' => $error));
+    $this->template('register/register.php', array('error' => $error));
   }
 }
