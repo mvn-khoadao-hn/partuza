@@ -404,11 +404,11 @@ form#register div .label {
 }
 
 .form_label label {
-	font-size: 18px;
+	font-size: 14px;
 }
 
 .form_label {
-	width: 88px;
+	width: 80px;
 	text-align: left;
 	float: left;
 	color: #3366CC;
@@ -432,6 +432,10 @@ form#register div .label {
 	margin-bottom: 12px;
 	margin-top: 12px;
 	border-bottom: 1px solid #e5ecf9;
+}
+
+.tooltipColor {
+	color : #3366CC;
 }
 
 .info_detail {

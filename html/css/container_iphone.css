@@ -161,7 +161,7 @@ form#register div .label {
 }
 
 #profileContentWide {
-	width: 790px;
+	width: 320px;
 }
 
 #profileRight {
@@ -432,6 +432,10 @@ form#register div .label {
 	margin-bottom: 12px;
 	margin-top: 12px;
 	border-bottom: 1px solid #e5ecf9;
+}
+
+.tooltipColor {
+	color : #3366CC;
 }
 
 .info_detail {

@@ -55,7 +55,7 @@ class baseController extends Controller {
 	if(isset($_GET['appUrl'])) {
 	    $_SESSION['appUrl'] = $_GET['appUrl']; 
 	}
-	header("Location: /login");
+	header("Location: /home");
     }
   }
 

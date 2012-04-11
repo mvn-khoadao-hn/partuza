@@ -11,6 +11,7 @@
 <script type="text/javascript" src="<?=PartuzaConfig::get('gadget_server')?>/gadgets/js/rpc.js?c=1"></script>
 <script type="text/javascript" src="<?=PartuzaConfig::get('web_prefix')?>/js/jquery.all.js"></script>
 <script type="text/javascript" src="<?=PartuzaConfig::get('web_prefix')?>/js/container.js"></script>
+<script type="text/javascript" src="<?=PartuzaConfig::get('web_prefix')?>/js/iphone.js"></script>
 
 <link rel="openid2.provider openid.server" href="http://<?php echo $_SERVER['HTTP_HOST'];?>/openid/auth">
 <?php if($this instanceof profileController) { ?>
