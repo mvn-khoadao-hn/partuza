@@ -3,7 +3,7 @@
 <head>
 <title>Partuza</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="<?=PartuzaConfig::get('web_prefix')?>/css/container.css?v=5" rel="stylesheet" type="text/css">
+<link href="<?=PartuzaConfig::get('web_prefix')?>/css/container_iphone.css?v=5" rel="stylesheet" type="text/css">
 <link type="text/css" href="<?=PartuzaConfig::get('web_prefix')?>/css/jquery.css?v=5" rel="Stylesheet" />
 <script type="text/javascript" src="<?=PartuzaConfig::get('gadget_server')?>/gadgets/js/rpc.js?c=1"></script>
 <script type="text/javascript" src="<?=PartuzaConfig::get('web_prefix')?>/js/jquery.all.js"></script>
