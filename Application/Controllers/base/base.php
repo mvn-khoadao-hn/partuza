@@ -40,7 +40,7 @@ class baseController extends Controller {
       }
     }
 
-    if(isset($_COOKIE['authenticated'])) {
+    if(isset($_COOKIE['authenticated']) && $_SERVER['REQUEST_URI'] != '/login') {
     //if (! isset($_SESSION['username']) && isset($_COOKIE['authenticated'])) {
 	if (! isset($_SESSION['username']) ) {
 	     // user is not logged in yet, but we do have a authenticated cookie, see if it's valid
@@ -48,6 +48,9 @@ class baseController extends Controller {
 	     $login = $this->model('login');
 	     if (($user = $login->get_authenticated($_COOKIE['authenticated'])) !== false) {
 		$this->set_session($user);
+	     }
+	     else {
+		header("Location: /login");
 	     }
       	}
     }

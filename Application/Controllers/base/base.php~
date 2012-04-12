@@ -49,13 +49,16 @@ class baseController extends Controller {
 	     if (($user = $login->get_authenticated($_COOKIE['authenticated'])) !== false) {
 		$this->set_session($user);
 	     }
+	     else {
+		header("Location: /login");
+	     }
       	}
     }
     elseif($_SERVER['REQUEST_URI'] != '/home' && $_SERVER['REQUEST_URI'] != '/login' && $_SERVER['REQUEST_URI'] != '/register') {
 	if(isset($_GET['appUrl'])) {
 	    $_SESSION['appUrl'] = $_GET['appUrl']; 
 	}
-	header("Location: /home");
+	header("Location: /login");
     }
   }
 

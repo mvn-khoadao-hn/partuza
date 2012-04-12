@@ -19,7 +19,7 @@
  */
 
 class applicationsModel extends Model {
-  public $cachable = array('get_person_applications', 'get_all_applications', 'get_application_prefs',
+  public $cachable = array('get_person_application_not_by_id', 'get_person_applications', 'get_all_applications', 'get_application_prefs',
       'get_person_application', 'get_application_by_id', 'get_application');
 
   public function load_get_person_applications($id) {
@@ -36,6 +36,31 @@ class applicationsModel extends Model {
       $row['user_prefs'] = $this->get_application_prefs($id, $row['id']);
       $row['oauth'] = $oauth->get_gadget_consumer($row['id']);
       $ret[] = $row;
+    }
+    return $ret;
+  }
+
+  public function load_get_person_application_not_by_id($person_id, $app_id) {
+    global $db;
+    $ret = array();
+    $person_id = $db->addslashes($person_id);
+    $app_id = $db->addslashes($app_id);
+    $res = $db->query("select person_applications.id as mod_id from person_applications, applications where person_applications.person_id = $person_id and person_applications.application_id = $app_id");
+    if ($db->num_rows($res)) {
+      list($mod_id) = $db->fetch_row($res);
+    }
+    else {
+	throw new SocialSpiException("Application wasn't exist!", ResponseError::$INTERNAL_ERROR);
+    }
+    $res = $db->query("select url from applications where id = $app_id");
+    if ($db->num_rows($res)) {
+      list($app_url) = $db->fetch_row($res);
+      $ret = $this->get_application($app_url);
+      $ret['mod_id'] = $mod_id;
+      $ret['user_prefs'] = $this->get_application_prefs($person_id, $app_id);
+    }
+    else {
+	throw new SocialSpiException("Application wasn't exist!", ResponseError::$INTERNAL_ERROR);
     }
     return $ret;
   }
