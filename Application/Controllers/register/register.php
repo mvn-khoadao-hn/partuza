@@ -52,7 +52,7 @@ class registerController extends baseController {
           $this->authenticate($_POST['register_email'], $_POST['register_password']);
           
 	  if(isset($_SESSION['appUrl'])) {
-	     header('Location: /profile/getapp?appUrl=' . $_SESSION['appUrl']);
+	     header('Location: " . $_SESSION['appUrl']);
 	     unset($_SESSION['appUrl']);
 	     die();	
 	  }

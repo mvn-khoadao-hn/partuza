@@ -29,7 +29,7 @@ class baseController extends Controller {
         // Redirect to self, but without post to prevent posting if the user refreshes the page
         // Login request to /openid/login page should not be redirected.
 	if(isset($_SESSION['appUrl'])) {
-	   header('Location: /profile/getapp?appUrl=' . $_SESSION['appUrl']);
+	   header('Location: ' . $_SESSION['appUrl']);
 	   unset($_SESSION['appUrl']);
 	   die();
 	}
@@ -56,7 +56,7 @@ class baseController extends Controller {
     }
     elseif($_SERVER['REQUEST_URI'] != '/home' && $_SERVER['REQUEST_URI'] != '/login' && $_SERVER['REQUEST_URI'] != '/register') {
 	if(isset($_GET['appUrl'])) {
-	    $_SESSION['appUrl'] = $_GET['appUrl']; 
+	     $_SESSION['appUrl'] = $_SERVER['REQUEST_URI'];//'/profile/app/' . $app_id . '?appUrl=' . $_GET['appUrl']; 
 	}
 	header("Location: /login");
     }

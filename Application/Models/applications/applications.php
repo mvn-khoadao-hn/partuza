@@ -50,7 +50,8 @@ class applicationsModel extends Model {
       list($mod_id) = $db->fetch_row($res);
     }
     else {
-	throw new SocialSpiException("Application wasn't exist!", ResponseError::$INTERNAL_ERROR);
+	$db->query("insert into person_applications (id, person_id, application_id) values (0, $person_id, $app_id)");
+	$mod_id = $db->insert_id();
     }
     $res = $db->query("select url from applications where id = $app_id");
     if ($db->num_rows($res)) {

@@ -269,7 +269,7 @@ class profileController extends baseController {
 
   public function app($params) {
     $app_id = isset($params[3]) && is_numeric($params[3]) ? $params[3] : false;
-    if (! $app_id|| ! isset($_SESSION['id']) || ! isset($_GET['appUrl'])) {
+    if (! $app_id || ! isset($_SESSION['id']) || ! isset($_GET['appUrl'])) {
       header("Location: /");
       die();
     }
