@@ -684,10 +684,10 @@ CREATE TABLE `person_payments` (
 SET character_set_client = @saved_cs_client;
 
 
---DROP TABLE IF EXISTS `person_items`;
---SET @saved_cs_client     = @@character_set_client;
---SET character_set_client = utf8;
---CREATE TABLE `person_items` (
+-- DROP TABLE IF EXISTS `person_items`;
+-- SET @saved_cs_client     = @@character_set_client;
+-- SET character_set_client = utf8;
+-- CREATE TABLE `person_items` (
 --  `item_id` int(11) NOT NULL,
 --  `person_id` int(11) NOT NULL,
 --  `payment_id` int(11) NOT NULL,
@@ -698,8 +698,8 @@ SET character_set_client = @saved_cs_client;
 --  `description` char(128) DEFAULT NULL,
 --  KEY `person_id` (`person_id`),
 --  KEY `payment_id` (`payment_id`)
---) ENGINE=MyISAM;
---SET character_set_client = @saved_cs_client;
+-- ) ENGINE=MyISAM;
+-- SET character_set_client = @saved_cs_client;
 
 
 --
