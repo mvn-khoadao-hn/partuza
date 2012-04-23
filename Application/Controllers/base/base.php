@@ -23,6 +23,8 @@ class baseController extends Controller {
   public function __construct() {
     @session_start();
 
+if(!strpos($_SERVER['REQUEST_URI'],"verify") && empty($_GET['receipt'])) {
+
     // allow logins anywhere in the site
     if (! isset($_SESSION['id']) && ! empty($_POST['email']) && ! empty($_POST['password'])) {
       if ($this->authenticate($_POST['email'], $_POST['password'])) {
@@ -60,6 +62,7 @@ class baseController extends Controller {
 	}
 	header("Location: /login");
     }
+}
   }
 
   public function authenticate($email, $password) {
