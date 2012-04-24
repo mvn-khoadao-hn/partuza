@@ -23,8 +23,8 @@ class verifyController extends baseController {
 	$response_json = json_decode($response);
 
 	//var_dump($response_json);
-	//print $response_json->{'status'};
-	print $response;
+	print $response_json->{'status'};
+	//print $response;
    
   }
 }
