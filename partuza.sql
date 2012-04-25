@@ -684,6 +684,27 @@ CREATE TABLE `person_payments` (
 SET character_set_client = @saved_cs_client;
 
 
+DROP TABLE IF EXISTS `person_transactions`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `person_transactions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `person_id` int(11) NOT NULL,
+  `payment_id` int(11) NOT NULL,
+  `app_id` int(11) NOT NULL,
+  `transaction_id` char(22) DEFAULT NULL,
+  `product_id` char(128) NOT NULL,
+  `receipt` text NOT NULL,
+  `status` char(11) NOT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `verified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `person_id` (`person_id`),
+  KEY `app_id` (`app_id`)
+) ENGINE=MyISAM;
+SET character_set_client = @saved_cs_client;
+
+
 -- DROP TABLE IF EXISTS `person_items`;
 -- SET @saved_cs_client     = @@character_set_client;
 -- SET character_set_client = utf8;

@@ -46,4 +46,33 @@ class paymentModel extends Model {
     return true;
 
   }
+
+  public function create_transaction($userId, $appId, $paymentId, $productId, $receipt) {
+    global $db;
+    $userId = $db->addslashes($userId);
+    $appId = $db->addslashes($appId);
+    $paymentId = $db->addslashes($paymentId);
+
+    $now = date('Y-m-d H:i:s');
+
+    $query = $db->query("insert into person_transactions (person_id, app_id, payment_id, product_id, receipt, status, created_date )" . " values ('$userId', '$appId', '$paymentId', '$productId', '$receipt', 'created', '$now')");
+    $id =  $db->insert_id($query);
+    
+    return $id;
+
+  }
+
+  public function update_transaction($id, $status, $transactionId) {
+    global $db;
+    $id = $db->addslashes($id);
+    $transactionId = $db->addslashes($transactionId);
+
+    $now = date('Y-m-d H:i:s');
+
+    $query = "update person_transactions set transaction_id = '$transactionId', status = '$status', verified_date = '$now' where id = '$id'";
+    if (! $db->query($query)) {	
+    	return false;
+    }
+    return true;
+  }
 }
